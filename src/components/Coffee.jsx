@@ -1,10 +1,10 @@
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const Coffee = ({ data }) => {
+const Coffee = ({ data, coffee, setCoffee }) => {
   const { _id, name, chef, photo, supplier } = data;
 
   const danhleDelete = (id) => {
-    console.log(id);
 
     Swal.fire({
       title: "Are you sure?",
@@ -27,6 +27,8 @@ const Coffee = ({ data }) => {
               text: "Your file has been deleted.",
               icon: "success",
             });
+            const remainig = coffee.filter((cof) => cof._id !== id);
+            setCoffee(remainig);
           });
       }
     });
@@ -46,7 +48,9 @@ const Coffee = ({ data }) => {
         <div>
           <button className="btn bg-slate-500">View</button>
           <br />
-          <button className="btn bg-purple-500">Edit</button>
+          <Link to={`/updateCoffee/${_id}`}>
+            <button className="btn bg-purple-500">Edit</button>
+          </Link>
           <br />
           <button onClick={() => danhleDelete(_id)} className="btn bg-red-300">
             Delete

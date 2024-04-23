@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 const UpdateCoffee = () => {
+  const loaderData = useLoaderData();
+  const { _id, name, chef, photo, supplier, taste, category, detail } = loaderData;
 
-  const handleUpdateCoffee = e =>{
+  const handleUpdateCoffee = (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
@@ -13,9 +15,30 @@ const UpdateCoffee = () => {
     const detail = form.detail.value;
     const photo = form.photo.value;
 
-    const updateCoffee = {name, chef, supplier, taste, category, detail, photo}
+    const updateCoffee = {
+      name,
+      chef,
+      supplier,
+      taste,
+      category,
+      detail,
+      photo,
+    };
     console.log(updateCoffee);
-  }
+
+    fetch(`http://localhost:5000/coffee/${_id}`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(updateCoffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if(data.modifiedCount > 0){
+          alert('User updated succecc')
+      }
+      });
+  };
   return (
     <div>
       <div className="text-center space-x-5">
@@ -26,10 +49,9 @@ const UpdateCoffee = () => {
           <button className="btn">Go to Add Coffee</button>
         </Link>
       </div>
-      
-      
+
       <div className="max-w-6xl mx-auto p-10 bg-pink-100">
-      <div className="text-center my-8 space-y-4 ">
+        <div className="text-center my-8 space-y-4 ">
           <h2 className="text-4xl font-bold">Update Existing Coffee Details</h2>
           <p>
             It is a long established fact that a reader will be distraceted by
@@ -38,43 +60,89 @@ const UpdateCoffee = () => {
             distribution of letters, as opposed to using Content here.
           </p>
         </div>
-      <form onSubmit={handleUpdateCoffee} className="space-y-8">
+        <form onSubmit={handleUpdateCoffee} className="space-y-8">
           <div className="flex justify-evenly gap-10">
             <div className="w-full ">
               <p>Name</p>
-              <input className="w-full p-2" type="text" name="name" placeholder="Name" />
+              <input
+                className="w-full p-2"
+                type="text"
+                name="name"
+                placeholder="Name"
+                defaultValue={`${name}`}
+              />
             </div>
             <div className="w-full ">
               <p>Chef</p>
-              <input className="w-full p-2" type="text" name="chef" placeholder="Chef" />
+              <input
+                className="w-full p-2"
+                type="text"
+                name="chef"
+                placeholder="Chef"
+                defaultValue={`${chef}`}
+              />
             </div>
           </div>
           <div className="flex justify-evenly gap-10">
             <div className="w-full ">
               <p>Supplier</p>
-              <input className="w-full p-2" type="text" name="supplier" placeholder="Supplier" />
+              <input
+                className="w-full p-2"
+                type="text"
+                name="supplier"
+                placeholder="Supplier"
+                defaultValue={`${supplier}`}
+              />
             </div>
             <div className="w-full ">
               <p>Taste</p>
-              <input className="w-full p-2" type="text" name="taste" placeholder="Taste" />
+              <input
+                className="w-full p-2"
+                type="text"
+                name="taste"
+                placeholder="Taste"
+                defaultValue={`${taste}`}
+              />
             </div>
           </div>
           <div className="flex justify-evenly gap-10">
             <div className="w-full ">
               <p>Category</p>
-              <input className="w-full p-2" type="text" name="category" placeholder="Category" />
+              <input
+                className="w-full p-2"
+                type="text"
+                name="category"
+                placeholder="Category"
+                defaultValue={`${category}`}
+              />
             </div>
             <div className="w-full ">
               <p>Detail</p>
-              <input className="w-full p-2" type="text" name="detail" placeholder="Detail" />
+              <input
+                className="w-full p-2"
+                type="text"
+                name="detail"
+                placeholder="Detail"
+                defaultValue={`${detail}`}
+              />
             </div>
           </div>
           <div className="w-full">
             <p>Photo</p>
-            <input className="w-full p-2" type="text" name="photo" placeholder="Photo" />
+            <input
+              className="w-full p-2"
+              type="text"
+              name="photo"
+              placeholder="Photo"
+              defaultValue={`${photo}`}
+            />
           </div>
           <div>
-            <input className="w-full p-2 bg-purple-500 text-white font-semibold cursor-pointer" type="submit" value="Add Coffee" />
+            <input
+              className="w-full p-2 bg-purple-500 text-white font-semibold cursor-pointer"
+              type="submit"
+              value="Add Coffee"
+            />
           </div>
         </form>
       </div>
