@@ -16,10 +16,10 @@ const Register = () => {
         console.log(res);
 
         // ==== create user on database ==========
-        const createdAt = res.user.metadata.creationTime
+        const createdAt = res.user?.metadata?.creationTime
         const user = { email, pass, createdAt };
 
-        fetch("http://localhost:5000/user", {
+        fetch("https://coffee-store-server-henna-chi.vercel.app/user", {
           method: "POST",
           headers: {
             "content-type": "application/json",

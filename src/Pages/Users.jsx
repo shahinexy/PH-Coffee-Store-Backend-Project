@@ -8,7 +8,7 @@ const Users = () => {
   const handleDelete = id =>{
     console.log(id);
 
-    fetch(`http://localhost:5000/user/${id}`, {
+    fetch(`https://coffee-store-server-henna-chi.vercel.app/user/${id}`, {
         method: "DELETE"
     })
     .then(res => res.json())
@@ -40,6 +40,7 @@ const Users = () => {
                 <th>Email</th>
                 <th>Password</th>
                 <th>CreatedAt</th>
+                <th>Last Login</th>
                 <th></th>
               </tr>
             </thead>
@@ -50,6 +51,7 @@ const Users = () => {
                   <td>{data.email}</td>
                   <td>{data.pass}</td>
                   <td>{data.createdAt}</td>
+                  <td>{data.lastLoginAt}</td>
                   <td><button onClick={() => handleDelete(data._id)} className="btn">X</button></td>
                 </tr>
               ))}
