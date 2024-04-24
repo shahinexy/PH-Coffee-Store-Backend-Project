@@ -1,6 +1,40 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { authContext } from "../AuthProvider";
 
 const Register = () => {
+  const { createUser } = useContext(authContext);
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const pass = form.pass.value;
+
+    createUser(email, pass)
+      .then((res) => {
+        console.log(res);
+
+        // ==== create user on database ==========
+        const createdAt = res.user.metadata.creationTime
+        const user = { email, pass, createdAt };
+
+        fetch("http://localhost:5000/user", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if(data.insertedId){
+                alert('user added success')
+            }
+          });
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div>
       <div className="text-center ">
@@ -16,16 +50,16 @@ const Register = () => {
               <h1 className="text-5xl font-bold">Register now!</h1>
             </div>
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-              <form className="card-body">
+              <form onSubmit={handleRegister} className="card-body">
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Email</span>
                   </label>
                   <input
                     type="email"
+                    name="email"
                     placeholder="email"
                     className="input input-bordered"
-                    required
                   />
                 </div>
                 <div className="form-control">
@@ -34,9 +68,9 @@ const Register = () => {
                   </label>
                   <input
                     type="password"
+                    name="pass"
                     placeholder="password"
                     className="input input-bordered"
-                    required
                   />
                   <label className="label">
                     <a href="#" className="label-text-alt link link-hover">
@@ -47,6 +81,9 @@ const Register = () => {
                 <div className="form-control mt-6">
                   <button className="btn btn-primary">Register</button>
                 </div>
+                <Link to={"/login"}>
+                  <p className="underline">Login</p>
+                </Link>
               </form>
             </div>
           </div>
