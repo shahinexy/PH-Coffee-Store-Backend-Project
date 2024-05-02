@@ -20,7 +20,7 @@ const Register = () => {
         const createdAt = res.user?.metadata?.creationTime
         const user = { email, pass, createdAt };
 
-        axios.post('https://coffee-store-server-henna-chi.vercel.app/user')
+        axios.post('https://coffee-store-server-henna-chi.vercel.app/user', user)
         .then(data =>{
           console.log(data.data);
         })

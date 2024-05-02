@@ -1,10 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+// import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Users = () => {
-  const loaderData = useLoaderData();
-  const [users, setUser] = useState(loaderData)
+  // const loaderData = useLoaderData();
+  // const [users, setUser] = useState(loaderData)
+
+  const {data , isPending, isError, error} = useQuery({
+    queryKey: ['users'],
+    queryFn: async() =>{
+          const res = await fetch("https://coffee-store-server-henna-chi.vercel.app/user")
+          return res.json()
+    }
+  })
 
   const handleDelete = id =>{
     console.log(id);
@@ -14,8 +23,8 @@ const Users = () => {
       console.log(data)
       if(data.deletedCount > 0){
         // set new user data
-        const remaining = users.filter(user => user._id !== id);
-        setUser(remaining)
+        // const remaining = users.filter(user => user._id !== id);
+        // setUser(remaining)
     }
     })
 
@@ -31,6 +40,15 @@ const Users = () => {
     //         setUser(remaining)
     //     }
     // })
+  }
+  console.log(data);
+
+  if(isPending){
+    return <span className="h-screen mx-auto flex justify-center items-center loading loading-spinner loading-lg"></span>
+  }
+
+  if(isError){
+    return <p>{error.message}</p>
   }
 
   return (
@@ -56,7 +74,7 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((data, idx) => (
+              {data.map((data, idx) => (
                 <tr key={idx}>
                   <th>{idx + 1}</th>
                   <td>{data.email}</td>

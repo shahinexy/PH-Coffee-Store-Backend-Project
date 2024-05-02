@@ -11,11 +11,17 @@ import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import Users from "./Pages/Users.jsx";
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
-    loader: () => fetch("https://coffee-store-server-henna-chi.vercel.app/coffee"),
+    loader: () =>
+      fetch("https://coffee-store-server-henna-chi.vercel.app/coffee"),
   },
   {
     path: "/addCoffee",
@@ -24,27 +30,36 @@ const router = createBrowserRouter([
   {
     path: "/updateCoffee/:id",
     element: <UpdateCoffee></UpdateCoffee>,
-    loader: ({ params }) => fetch(`https://coffee-store-server-henna-chi.vercel.app/coffee/${params.id}`),
+    loader: ({ params }) =>
+      fetch(
+        `https://coffee-store-server-henna-chi.vercel.app/coffee/${params.id}`
+      ),
   },
   {
-    path: '/users',
+    path: "/users",
     element: <Users></Users>,
-    loader: () => fetch('https://coffee-store-server-henna-chi.vercel.app/user')
+    loader: () =>
+      fetch("https://coffee-store-server-henna-chi.vercel.app/user"),
   },
   {
-    path: '/register',
-    element: <Register></Register>
+    path: "/register",
+    element: <Register></Register>,
   },
   {
-    path: '/login',
-    element: <Login></Login>
-  }
+    path: "/login",
+    element: <Login></Login>,
+  },
 ]);
+
+// Create a client
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
