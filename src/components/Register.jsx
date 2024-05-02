@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { authContext } from "../AuthProvider";
+import axios from "axios";
 
 const Register = () => {
   const { createUser } = useContext(authContext);
@@ -19,19 +20,24 @@ const Register = () => {
         const createdAt = res.user?.metadata?.creationTime
         const user = { email, pass, createdAt };
 
-        fetch("https://coffee-store-server-henna-chi.vercel.app/user", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(user),
+        axios.post('https://coffee-store-server-henna-chi.vercel.app/user')
+        .then(data =>{
+          console.log(data.data);
         })
-          .then((res) => res.json())
-          .then((data) => {
-            if(data.insertedId){
-                alert('user added success')
-            }
-          });
+
+        // fetch("https://coffee-store-server-henna-chi.vercel.app/user", {
+        //   method: "POST",
+        //   headers: {
+        //     "content-type": "application/json",
+        //   },
+        //   body: JSON.stringify(user),
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     if(data.insertedId){
+        //         alert('user added success')
+        //     }
+        //   });
       })
       .catch((error) => console.log(error));
   };

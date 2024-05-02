@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
@@ -8,18 +9,28 @@ const Users = () => {
   const handleDelete = id =>{
     console.log(id);
 
-    fetch(`https://coffee-store-server-henna-chi.vercel.app/user/${id}`, {
-        method: "DELETE"
+    axios.delete(`https://coffee-store-server-henna-chi.vercel.app/user/${id}`)
+    .then(data => {
+      console.log(data)
+      if(data.deletedCount > 0){
+        // set new user data
+        const remaining = users.filter(user => user._id !== id);
+        setUser(remaining)
+    }
     })
-    .then(res => res.json())
-    .then(data =>{
-        console.log(data);
-        if(data.deletedCount > 0){
-            // set new user data
-            const remaining = users.filter(user => user._id !== id);
-            setUser(remaining)
-        }
-    })
+
+    // fetch(`https://coffee-store-server-henna-chi.vercel.app/user/${id}`, {
+    //     method: "DELETE"
+    // })
+    // .then(res => res.json())
+    // .then(data =>{
+    //     console.log(data);
+    //     if(data.deletedCount > 0){
+    //         // set new user data
+    //         const remaining = users.filter(user => user._id !== id);
+    //         setUser(remaining)
+    //     }
+    // })
   }
 
   return (
