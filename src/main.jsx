@@ -11,10 +11,7 @@ import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import Users from "./Pages/Users.jsx";
 
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +49,7 @@ const router = createBrowserRouter([
 ]);
 
 // Create a client
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

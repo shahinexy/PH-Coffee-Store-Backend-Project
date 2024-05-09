@@ -1,6 +1,7 @@
 import { Link, useLoaderData } from "react-router-dom";
 import Coffee from "./components/Coffee";
 import { useEffect, useState } from "react";
+import NavBar from "./components/NavBar";
 function App() {
   const loaderData = useLoaderData();
   const [coffee, setCoffee] = useState(loaderData)
@@ -27,7 +28,7 @@ function App() {
 
   useEffect(() => {
       const currentMode = localStorage.getItem('mode') ;
-      console.log(currentMode);
+      
       html.classList.add(currentMode);
       setMode(currentMode)
   }, [ mode, html])
@@ -35,6 +36,7 @@ function App() {
 
   return (
     <div className="max-w-7xl mx-auto my-3">
+      <NavBar></NavBar>
       <div className="text-center space-x-5">
         <Link to={"/addCoffee"}>
           <button className="btn">Go to Add Coffee</button>
