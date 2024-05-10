@@ -2,6 +2,7 @@ import { Link, useLoaderData } from "react-router-dom";
 import Coffee from "./components/Coffee";
 import { useEffect, useState } from "react";
 import NavBar from "./components/NavBar";
+import { Button } from "@nextui-org/react";
 function App() {
   const loaderData = useLoaderData();
   const [coffee, setCoffee] = useState(loaderData)
@@ -55,6 +56,9 @@ function App() {
           <Coffee key={data._id} data={data} coffee={coffee} setCoffee={setCoffee}></Coffee>
         ))}
       </div>
+      <Button className="bg-black hover:bg-purple-900 text-red-400">
+        Danger
+      </Button> 
     </div>
   );
 }
